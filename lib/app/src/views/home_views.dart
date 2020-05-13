@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
+import 'package:transparent_image/transparent_image.dart';
+
+import 'gif_page_views.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -13,7 +17,7 @@ class _HomeViewState extends State<HomeView> {
   Future<Map> getGifs() async {
     http.Response response;
 
-    if (search == null)
+    if (search == null || search.isEmpty)
       response = await http.get(
         'https://api.giphy.com/v1/gifs/trending?api_key=5fUcvXwDG1ZuBwvaM0Pt4XH6Zpecyo4G&limit=20&rating=G',
       );
@@ -39,6 +43,9 @@ class _HomeViewState extends State<HomeView> {
             ),
             Text(
               " Buscador de Gif\'s",
+              style: TextStyle(
+                fontSize: 26,
+              ),
             ),
           ],
         ),
@@ -118,11 +125,27 @@ class _HomeViewState extends State<HomeView> {
       itemBuilder: (context, index) {
         if (search == null || index < snapshot.data['data'].length)
           return GestureDetector(
-            child: Image.network(
-              snapshot.data['data'][index]['images']['fixed_height']['url'],
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: snapshot.data['data'][index]['images']['fixed_height']['url'],
               height: 300,
               fit: BoxFit.cover,
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GifPage(
+                    snapshot.data['data'][index],
+                  ),
+                ),
+              );
+            },
+            onLongPress: () {
+              Share.share(
+                snapshot.data['data'][index]['images']['fixed_height']['url'],
+              );
+            },
           );
         else
           return Container(

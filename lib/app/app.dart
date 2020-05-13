@@ -7,8 +7,11 @@ class BuscadorGifsApp extends StatelessWidget {
     return MaterialApp(
       home: HomeView(),
       theme: ThemeData(
+        cursorColor: Colors.amber,
+        buttonColor: Colors.amber,
+        indicatorColor: Colors.amber,
         accentColor: Colors.amber,
-        hintColor: Colors.white,
+        hintColor: Colors.amber,
         primarySwatch: Colors.amber,
         primaryColor: Colors.amber,
         fontFamily: 'Rokkitt',
@@ -28,11 +31,11 @@ class BuscadorGifsApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           elevation: 5,
           color: Colors.black,
+          iconTheme: IconThemeData(color: Colors.amber),
           textTheme: TextTheme(
             title: TextStyle(
               fontFamily: 'PermanentMarker',
               color: Colors.white,
-              fontSize: 26,
               letterSpacing: 3,
             ),
           ),
